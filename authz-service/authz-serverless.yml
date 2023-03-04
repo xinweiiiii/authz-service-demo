@@ -1,0 +1,20 @@
+STAGES: # Lambda specific environment variable
+  dev:
+    VARIABLES:
+      AUTHZ_KEY: "dev/authz"
+      AUTHZ_TABLE: "authz-table"
+      S3_BUCKET: dev-assets-authz
+
+FUNCTION-GET-TOKEN:
+  handler: ./authz-service/authzService.handler
+  description: Sample endpoint authz
+  memorySize: ${self:custom.config.default.lambda.memorySize}
+  timeout: ${self:custom.config.default.lambda.timeout}
+  events:
+    - http:
+        path: v1/oauth/token
+        method: post
+  environment:
+    AUTHZ_KEY: ${file(./authz-service/authz-serverless.yml):STAGES.${self:provider.environment.ENV}.VARIABLES.AUTHZ_KEY}
+    AUTHZ_TABLE: ${file(./authz-service/authz-serverless.yml):STAGES.${self:provider.environment.ENV}.VARIABLES.AUTHZ_TABLE}
+

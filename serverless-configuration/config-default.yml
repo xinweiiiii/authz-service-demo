@@ -1,0 +1,4 @@
+CONFIG-DEFAULT:
+  lambda:
+    memorySize: 2048
+    timeout: 30

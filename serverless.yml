@@ -1,0 +1,24 @@
+service: authz-demo
+frameworkVersion: "3"
+
+custom:
+  config:
+    default: ${file(serverless-configuration/config-default.yml):CONFIG-DEFAULT}
+    dev: ${file(serverless-configuration/config-dev.yml):CONFIG}
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-1
+  deploymentBucket:
+    serverSideEncryption: AES256
+    blockPublicAccess: true
+  environment:
+    ENV: dev
+
+plugins:
+  - serverless-esbuild
+
+functions:
+  authzService: ${file(./authz-service/authz-serverless.yml):FUNCTION-GET-TOKEN}
+  helloWorldService: ${file(./hello-world/serverless-helloworld.yml):FUNCTION-HELLO-WORLD}

@@ -1,0 +1,10 @@
+FUNCTION-HELLO-WORLD:
+  handler: ./hello-world/index.handler
+  description: Sample endpoint
+  memorySize: ${self:custom.config.default.lambda.memorySize}
+  timeout: ${self:custom.config.default.lambda.timeout}
+  events:
+    - http:
+        path: v1/helloworld
+        method: post
+
